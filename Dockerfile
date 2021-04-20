@@ -9,7 +9,7 @@ ENV PATH="$HOME/.yarn/bin:$PATH"
 
 # Clone repository and set as workdir 
 RUN cd /root && \
-    git clone https://github.com/bitfocus/companion.git && \
+    git clone -b yuri https://github.com/yurividal/companion.git && \
     mv companion/.[!.]* . && \
     mv companion/* . && \
     rm -rf companion && \
@@ -18,7 +18,11 @@ RUN cd /root && \
     curl -L https://yarnpkg.com/latest.tar.gz | tar xvz && mv yarn-v* $HOME/.yarn && \
     apt-get update && apt-get install -y --no-install-recommends apt-utils \ 
     libudev-dev \
+    python3-pip \
     libgusb-dev && \
+    pip3 install requests && \
+    cd $APPDIR && \
+    yarn install && \
     $APPDIR/tools/update.sh && \
     $APPDIR/tools/build_writefile.sh
 
